@@ -1,0 +1,28 @@
+import pandas as pd
+from sklearn.model_selection import train_test_split
+from sklearn.tree import DecisionTreeClassifier
+from sklearn.metrics import accuracy_score
+
+# Load data
+columns = ['pregnant', 'glucose', 'bp', 'skin', 'insulin', 'bmi', 'pedigree', 'age', 'label']
+df = pd.read_csv("medicaldata.csv", header=1, names=columns)
+
+# Prepare data
+features = ['pregnant', 'insulin', 'bmi', 'age', 'glucose', 'bp', 'pedigree']
+x = df[features]
+y = df.label
+
+# Split data
+x_train, x_test, y_train, y_test = train_test_split(x, y, test_size=0.25, random_state=100)
+
+# Train model
+dtc = DecisionTreeClassifier()
+dtc = dtc.fit(x_train, y_train)
+
+# Make predictions
+y_pred = dtc.predict(x_test)
+
+# Evaluate model
+accuracy = accuracy_score(y_test, y_pred)
+print("The accuracy of this model is", accuracy)
+
